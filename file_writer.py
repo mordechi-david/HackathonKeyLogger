@@ -21,5 +21,5 @@ class FileWriter(IWriter):
             file.write(data)
 
 
-printer_show = FileWriter()
-printer_show.send_data()
+# printer_show = FileWriter()
+# printer_show.send_data()

