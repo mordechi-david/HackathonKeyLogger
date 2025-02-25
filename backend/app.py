@@ -34,5 +34,11 @@ def upload():
 
     return jsonify({"status": "success", "file": file_path}), 200
 
+def get_targget_machines_list():
+    """Returns a list of all machines that have logged data"""
+    machines = os.listdir(DATA_FOLDER)
+    return jsonify({"machines": machines})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
