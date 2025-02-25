@@ -33,7 +33,7 @@ def upload():
         f.write(log_data)
 
     return jsonify({"status": "success", "file": file_path}), 200
-
+@app.route('/api/machines', methods=['GET'])
 def get_targget_machines_list():
     """Returns a list of all machines that have logged data"""
     machines = os.listdir(DATA_FOLDER)
