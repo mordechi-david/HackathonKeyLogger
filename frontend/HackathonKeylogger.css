@@ -1,0 +1,41 @@
+/* עיצוב גוף הדף */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}   
+.window_computers{
+    color: white;
+    background-color: rgb(2, 6, 10);
+    border-radius:45px ;
+    display: inline-block;
+    width: 150px;
+    height: 200px;
+    vertical-align: top;
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+    border: 2px solid black;
+}
+
+.window_data_comuter{
+    color:black;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+.table{
+    margin: auto;
+    padding: auto;
+    width: 100px;
+    right: 100px;
+
+
+
+}
