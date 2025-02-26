@@ -15,11 +15,10 @@ class FileWriter(IWriter):
         directory = os.path.join("data", machine_name)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        formatted_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
-        file_path = os.path.join(directory, f"{formatted_time}.txt")
+        file_path = os.path.join(directory, "log.txt")
         with open(file_path, "a", encoding="utf8") as file:
             file.write(data)
 
 
 # printer_show = FileWriter()
-# printer_show.send_data()
+# printer_show.send_data("hello", "machine_name")

