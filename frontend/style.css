@@ -1,0 +1,136 @@
+body {
+    text-align: center;
+    margin: auto;
+    margin-top: 30px;
+    
+}
+.login_box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 300px;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e3e7d2;
+    width: 300px;
+    height: 300px;
+    
+    ;
+}
+h1 {
+    font-size: 50px;
+    margin: 10px;
+}
+
+h2 {
+    font-size: 35px;
+    margin: 10px;
+}
+
+h3{
+    font-size: 25px;
+    margin: 10px;
+}
+
+h4{
+    font-size: 18px;
+    margin: 10px;
+}
+
+p {
+    font-size: 17px;
+    margin: 20px;
+    line-height: 1.6;
+    text-align: left;
+}
+.in{
+    background-attachment: fixed;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin:auto;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e3e7d2;
+    width: 300px;
+    height: 300px;
+    
+}
+input {
+    font-size: large;
+    padding: 10px;
+    width: 250px;
+    margin: 5px;
+}
+.container {
+    margin: 70px;
+    flex-direction: column;
+    justify-content: center;
+    width: 95%;
+    align-items: flex-start; /* ממקם למעלה */
+    /* flex-wrap: wrap; */
+}
+.window_computers {
+    margin-top: 30px;
+    color: #333;
+    background-color: #e3e7d2;
+    border-radius: 15px;
+    width: 135px;
+    height: 50px;
+    padding: 15px;
+    margin: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.window_computers:hover {
+    background-color: #abbbcb;
+    color: #fff;
+    border-color: #0056b3;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.window_computers_div {
+    display:flexbox;
+    width: 20%;
+    height: 100%;
+    float: left;
+}
+
+.data_review{
+    margin: 15px;
+    background-color: #e3e7d2;
+    border: 1px solid #141313;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    height: 600px;
+    
+}
+.data_review_div{
+    display: flexbox;
+    margin-right: 5%;
+    padding: 1%;
+    width: 65%;
+    height: 600px;
+    float: right;    
+}
