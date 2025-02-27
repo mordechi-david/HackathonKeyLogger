@@ -1,9 +1,11 @@
 import os
 import time
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import Encryptor as enc
 
 app = Flask(__name__)
+CORS(app)
 DATA_FOLDER = "data"
 
 def generate_log_filename():
